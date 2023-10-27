@@ -24,6 +24,7 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
     return cpfsComputados;
   }
 
+  @Override
   public void cadastrarPessoaCandidata(String nome, int numero) {
     boolean pessoaCandidataJaExiste = false;
 
@@ -41,6 +42,7 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
     }
   }
 
+  @Override
   public void cadastrarPessoaEleitora(String nome, String cpf) {
     boolean pessoaEleitoraJaExiste = false;
 
