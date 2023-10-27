@@ -43,4 +43,12 @@ public class PessoaCandidata extends Pessoa {
   public void receberVoto() {
     this.votos += 1;
   }
+
+  public String getNome() {
+    return super.getNome();
+  }
+
+  public void setNome(String nome) {
+    super.setNome(nome);
+  }
 }

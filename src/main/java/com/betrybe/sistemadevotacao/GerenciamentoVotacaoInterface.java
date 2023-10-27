@@ -9,7 +9,7 @@ public interface GerenciamentoVotacaoInterface {
 
   void cadastrarPessoaEleitora(String nome, String cpf);
 
-  // void votar(String cpfPessoaEleitora, int numeroPessoaCandidata);
+  void votar(String cpfPessoaEleitora, int numeroPessoaCandidata);
 
-  // void mostrarResultado();
+  void mostrarResultado();
 }

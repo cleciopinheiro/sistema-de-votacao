@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
 
-  private ArrayList<PessoaCandidata> cpfsComputados;
+  private ArrayList<String> cpfsComputados;
   private ArrayList<PessoaCandidata> pessoasCandidatas;
   private ArrayList<PessoaEleitora> pessoasEleitoras;
 
@@ -15,9 +15,13 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
    * Construtor da classe GerenciamentoVotacao.
    */
   public GerenciamentoVotacao() {
-    this.cpfsComputados = new ArrayList<PessoaCandidata>();
-    this.pessoasCandidatas = new ArrayList<PessoaCandidata>();
-    this.pessoasEleitoras = new ArrayList<PessoaEleitora>();
+    this.cpfsComputados = new ArrayList<>();
+    this.pessoasCandidatas = new ArrayList<>();
+    this.pessoasEleitoras = new ArrayList<>();
+  }
+
+  public ArrayList<String> getCpfsComputados() {
+    return cpfsComputados;
   }
 
   public void cadastrarPessoaCandidata(String nome, int numero) {
@@ -29,12 +33,11 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
         break;
       }
     }
-
     if (pessoaCandidataJaExiste) {
       System.out.println("Número da pessoa candidata já utilizado!");
     } else {
-      PessoaCandidata pessoaCandidata = new PessoaCandidata(nome, numero);
-      this.pessoasCandidatas.add(pessoaCandidata);
+      PessoaCandidata novaPessoaCandidata = new PessoaCandidata(nome, numero);
+      this.pessoasCandidatas.add(novaPessoaCandidata);
     }
   }
 
@@ -54,5 +57,41 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
       PessoaEleitora pessoaEleitora = new PessoaEleitora(nome, cpf);
       this.pessoasEleitoras.add(pessoaEleitora);
     }
+  }
+
+  @Override
+  public void votar(String cpfPessoaEleitora, int numeroPessoaCandidata) {
+    if (!cpfsComputados.isEmpty()) {
+      for (String cpf : cpfsComputados) {
+        if (cpf.equals(cpfPessoaEleitora)) {
+          System.out.println("Pessoa eleitora já votou!");
+          return;
+        }
+      }
+    }
+    cpfsComputados.add(cpfPessoaEleitora);
+    for (PessoaCandidata pessoa : pessoasCandidatas) {
+      if (pessoa.getNumero() == numeroPessoaCandidata) {
+        pessoa.receberVoto();
+      }
+    }
+  }
+
+  @Override
+  public void mostrarResultado() {
+    if (cpfsComputados.isEmpty()) {
+      System.out.println("É preciso ter pelo menos um "
+          + " voto para mostrar o resultado");
+      return;
+    }
+    int total = cpfsComputados.size();
+    for (PessoaCandidata candidata : pessoasCandidatas) {
+      System.out.printf("Nome: %s - %d votos ( %d%% )%n",
+          candidata.getNome(),
+          candidata.getVotos(),
+          Math.round((float) candidata.getVotos() / total * 100)
+      );
+    }
+    System.out.printf("Total de votos: %d%n", total);
   }
 }
